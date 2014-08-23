@@ -1,0 +1,1 @@
+mvn eclipse:clean eclipse:eclipse -gs ./mvn.xml -f ./pom.xml

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>D:/mvnrepo</localRepository>
+
+  <pluginGroups>
+  </pluginGroups>
+
+  <proxies>
+  </proxies>
+
+  <servers>
+  </servers>
+  
+  <mirrors>
+  </mirrors>
+
+  <profiles>
+	<profile>
+		<id>ebill</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+		<repositories>
+			<repository>
+				<id>github</id>
+				<url>http://obullxl.github.io/mvnrepo</url>
+			</repository>
+			<repository>
+				<id>maven.org</id>
+				<url>http://central.maven.org/maven2</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</repository>
+			<repository>
+					<id>central_prod</id>
+					<url>http://mvn.test.alipay.net:8080/artifactory/repo</url>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>central_dev</id>
+					<url>http://mvn.dev.alipay.net:8080/artifactory/repo</url>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+		</repositories>
+		<pluginRepositories>
+			<pluginRepository>
+				<id>maven.org</id>
+				<url>http://central.maven.org/maven2</url>
+				<snapshots>
+					<enabled>true</enabled>
+				</snapshots>
+			</pluginRepository>
+			<pluginRepository>
+				<id>central</id>
+				<url>http://mvn.test.alipay.net:8080/artifactory/repo</url>
+				<snapshots>
+					<enabled>false</enabled>
+				</snapshots>
+			</pluginRepository>
+		</pluginRepositories>
+	</profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>ebill</activeProfile>
+  </activeProfiles>
+
+</settings>

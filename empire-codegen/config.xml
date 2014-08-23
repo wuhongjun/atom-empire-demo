@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<properties>
+		<jdbcClass>com.mysql.jdbc.Driver</jdbcClass>
+		<jdbcURL>jdbc:mysql://127.0.0.1:3306/plugin?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true</jdbcURL>
+		<jdbcUser>plugin</jdbcUser>
+		<jdbcPwd>plugin</jdbcPwd>
+
+		<!-- Schema options -->
+		<dbCatalog></dbCatalog>
+		<dbSchema></dbSchema>
+		<dbTablePattern></dbTablePattern>
+		<dbExcludeTables>atom_lock_task</dbExcludeTables>
+		<dbTableIgnorePrefix>jee_</dbTableIgnorePrefix>
+		<timestampColumn>gmt_modify</timestampColumn>
+
+		<!-- generation options -->
+		<targetFolder>src/main/java</targetFolder>
+		<templateFolder>empire-codegen/templates</templateFolder>
+		<packageName>com.atom.empire.das.auto</packageName>
+		<tablePackageName>com.atom.empire.das.auto.tables</tablePackageName>
+		<viewPackageName>com.atom.empire.das.auto.views</viewPackageName>
+		<recordPackageName>com.atom.empire.das.auto.records</recordPackageName>
+
+		<dbClassName>OSiteDB</dbClassName>
+		<tableBaseName>OSiteTable</tableBaseName>
+		<viewBaseName>OSiteView</viewBaseName>
+		<recordBaseName>OSiteTBO</recordBaseName>
+		<tableNamePrefix></tableNamePrefix>
+		<tableClassPrefix></tableClassPrefix>
+		<tableClassSuffix>TB</tableClassSuffix>
+		<viewNamePrefix></viewNamePrefix>
+		<viewClassPrefix></viewClassPrefix>
+		<viewClassSuffix>TV</viewClassSuffix>
+		<columnNamePrefix></columnNamePrefix>
+		<nestTables>false</nestTables>
+		<nestViews>false</nestViews>
+		<createRecordProperties>true</createRecordProperties>
+		<preserverCharacterCase>false</preserverCharacterCase>
+		<preserveRelationNames>false</preserveRelationNames>
+	</properties>
+</config>

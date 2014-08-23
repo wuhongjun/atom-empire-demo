@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="false" scan="false">
+	<contextName>TEST</contextName>
+	<property name="logPath" value="logs" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date %c %-5level [%X{LogID}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LOG-DEFAULT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logPath}/empire.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logPath}/empire.log.%d{yyyyMMdd}</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date %-5level [%X{LogID}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.apache.empire.db" level="WARN" additivity="false">
+		<appender-ref ref="LOG-DEFAULT" />
+	</logger>
+
+	<logger name="DEFAULT" level="WARN" additivity="false">
+		<appender-ref ref="LOG-DEFAULT" />
+	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="LOG-DEFAULT" />
+	</root>
+</configuration>

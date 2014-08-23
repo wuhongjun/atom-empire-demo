@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>系统参数配置</comment>
+
+	<!-- ================================ -->
+	<!-- 应用名称 -->
+	<!-- ================================ -->
+	<entry key="app_name">EmpireDB</entry>
+
+	<!-- ================================ -->
+	<!-- DB配置 -->
+	<!-- ================================ -->
+	<entry key="jdbc_driver_class">com.mysql.jdbc.Driver</entry>
+	<entry key="jdbc_url">jdbc:mysql://127.0.0.1:3306/plugin?useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnect=true</entry>
+	<entry key="jdbc_username">plugin</entry>
+	<entry key="jdbc_password">plugin</entry>
+	<entry key="jdbc_empire_driver">org.apache.empire.db.mysql.DBDatabaseDriverMySQL</entry>
+	<entry key="jdbc_empire_schema">plugin</entry>
+
+</properties>
