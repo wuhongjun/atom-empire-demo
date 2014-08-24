@@ -21,87 +21,88 @@ package org.apache.empire.db.codegen;
 import org.apache.empire.xml.XMLConfiguration;
 
 public class CodeGenConfig extends XMLConfiguration {
-    
-    private String              jdbcClass;
 
-    private String              jdbcURL;
+    private String  jdbcClass;
 
-    private String              jdbcUser;
+    private String  jdbcURL;
 
-    private String              jdbcPwd;
+    private String  jdbcUser;
+
+    private String  jdbcPwd;
 
     // generation options
     /**
      * name of the database catalog (may be null)
      */
-    private String              dbCatalog              = null;
+    private String  dbCatalog              = null;
 
     /**
      * name of the database schema (may be null)
      */
-    private String              dbSchema               = null;
+    private String  dbSchema               = null;
 
     /**
      * name of the table pattern (may be null)
      */
-    private String              dbTablePattern         = null;
+    private String  dbTablePattern         = null;
 
-    private String              dbExcludeTables        = null;
-    private String              dbTableIgnorePrefix    = null;
+    private String  dbExcludeTables        = null;
+    private String  dbIncludeTables        = null;
+    private String  dbTableIgnorePrefix    = null;
 
     /**
      * Name of the timestamp column used for optimistic locking (may be null)
      * e.g. "UPDATE_TIMESTAMP";
      */
-    private String              timestampColumn        = null;
+    private String  timestampColumn        = null;
 
     /**
      * name of the target folder
      */
-    private String              targetFolder           = "target/generated/db";
+    private String  targetFolder           = "target/generated/db";
 
     /**
      * name of the template folder
      */
-    private String              templateFolder;
+    private String  templateFolder;
 
     /**
      * name of the target package
      */
-    private String              packageName            = "org.foo.db";
+    private String  packageName            = "org.foo.db";
 
     /**
      * name of the table target package
      */
-    private String              tablePackageName;
+    private String  tablePackageName;
 
     /**
      * name of the record target package
      */
-    private String              recordPackageName;
+    private String  recordPackageName;
 
     /**
      * name of the view target package
      */
-    private String              viewPackageName;
+    private String  viewPackageName;
 
     /**
      * Target name of the generated database class. This class extends
      * DBDatabase.
      */
-    private String              dbClassName            = "MyDB";
+    private String  dbClassName            = "MyDB";
 
     /**
      * Target name of the generated table class. This class extends DBTable and
      * is the base class for all generated individual table classes.
      */
-    private String              tableBaseName          = "BaseTable";
+    private String  tableBaseName          = "BaseTable";
 
     /**
      * Target name of the generated view class. This class extends DBView and is
      * the base class for all generated individual view classes.
      */
-    private String              viewBaseName           = "BaseView";
+    private String  viewBaseName           = "BaseView";
 
     /**
      * Target name of the generated record class. This is a template class that
@@ -113,22 +114,22 @@ public class CodeGenConfig extends XMLConfiguration {
      * 
      * <br/>
      */
-    private String              recordBaseName         = "BaseRecord";
+    private String  recordBaseName         = "BaseRecord";
 
     /**
      * Prefix used for table member declarations
      */
-    private String              tableNamePrefix        = "";
+    private String  tableNamePrefix        = "";
 
     /**
      * Prefix used for view member declarations
      */
-    private String              viewNamePrefix         = "";
+    private String  viewNamePrefix         = "";
 
     /**
      * Prefix used for column member declarations
      */
-    private String              columnNamePrefix       = "";
+    private String  columnNamePrefix       = "";
 
     /**
      * Prefix used for generating table class names.<br/>
@@ -143,7 +144,7 @@ public class CodeGenConfig extends XMLConfiguration {
      * </ul>
      * Where XX is the prefix.
      */
-    private String              tableClassPrefix       = "";
+    private String  tableClassPrefix       = "";
 
     /**
      * Suffix used for generating table class names.<br/>
@@ -158,7 +159,7 @@ public class CodeGenConfig extends XMLConfiguration {
      * </ul>
      * Where "Table" is the suffix.
      */
-    private String              tableClassSuffix       = "";
+    private String  tableClassSuffix       = "";
 
     /**
      * Prefix used for generating view class names.<br/>
@@ -168,7 +169,7 @@ public class CodeGenConfig extends XMLConfiguration {
      * with a capital letter.<br/>
      * See naming of table classes above.
      */
-    private String              viewClassPrefix        = "";
+    private String  viewClassPrefix        = "";
 
     /**
      * Suffix used for generating view class names.<br/>
@@ -183,35 +184,35 @@ public class CodeGenConfig extends XMLConfiguration {
      * </ul>
      * Where "View" is the suffix.
      */
-    private String              viewClassSuffix        = "";
+    private String  viewClassSuffix        = "";
 
     /**
      * if TRUE table classes should be declared as inner classes of DBDatabase.<br/>
      * if FALSE table classes should be declared as top level classes.
      */
-    private boolean             nestTables             = false;
+    private boolean nestTables             = false;
 
     /**
      * if TRUE view classes should be declared as inner classes of DBDatabase.<br/>
      * if FALSE view classes should be declared as top level classes.
      */
-    private boolean             nestViews              = false;
+    private boolean nestViews              = false;
 
     /**
      * if TRUE record classes should have a getter and setter for each field.<br/>
      * Otherwise getters / setters are omitted.
      */
-    private boolean             createRecordProperties;
+    private boolean createRecordProperties;
 
     /**
      * true if names of tables and views should not be camel-cased
      */
-    private boolean             preserverCharacterCase = false;
+    private boolean preserverCharacterCase = false;
 
     /**
      * true if names of foreign-key-relations should be preserved
      */
-    private boolean             preserveRelationNames  = false;
+    private boolean preserveRelationNames  = false;
 
     /**
      * Initialize the configuration.
@@ -290,6 +291,14 @@ public class CodeGenConfig extends XMLConfiguration {
 
     public void setDbExcludeTables(String dbExcludeTables) {
         this.dbExcludeTables = dbExcludeTables;
+    }
+
+    public String getDbIncludeTables() {
+        return dbIncludeTables;
+    }
+
+    public void setDbIncludeTables(String dbIncludeTables) {
+        this.dbIncludeTables = dbIncludeTables;
     }
 
     public String getDbTableIgnorePrefix() {

@@ -10,7 +10,8 @@
 		<dbCatalog></dbCatalog>
 		<dbSchema></dbSchema>
 		<dbTablePattern></dbTablePattern>
-		<dbExcludeTables>atom_lock_task</dbExcludeTables>
+		<dbExcludeTables>jee_cfg_copy,jee_ctg_copy</dbExcludeTables>
+		<dbIncludeTables></dbIncludeTables>
 		<dbTableIgnorePrefix>jee_</dbTableIgnorePrefix>
 		<timestampColumn>gmt_modify</timestampColumn>
 

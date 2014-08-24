@@ -109,16 +109,14 @@ public class CodeGenParser {
      * Please use the config.xml file to change connection params.
      */
     private Connection openJDBCConnection(CodeGenConfig config) throws SQLException {
-        log.info("Connecting to Database'" + config.getJdbcURL() + "' / User="
-                 + config.getJdbcUser());
+        log.info("Connecting to Database'" + config.getJdbcURL() + "' / User=" + config.getJdbcUser());
         Connection conn = null;
         try {
             Class.forName(config.getJdbcClass()).newInstance();
         } catch (Exception ex) {
             throw new SQLException("Could not load database driver: " + config.getJdbcClass());
         }
-        conn = DriverManager.getConnection(config.getJdbcURL(), config.getJdbcUser(),
-            config.getJdbcPwd());
+        conn = DriverManager.getConnection(config.getJdbcURL(), config.getJdbcUser(), config.getJdbcPwd());
         log.info("Connected successfully");
         return conn;
     }
@@ -129,27 +127,27 @@ public class CodeGenParser {
      * @throws SQLException 
      */
     private void populateDatabase(DBDatabase db) throws SQLException {
-        // ignore tables
-        Set<String> ignoreTables = new HashSet<String>();
-        String dbExcludeTables = config.getDbExcludeTables();
-        if (StringUtils.isNotBlank(dbExcludeTables)) {
-            ignoreTables.addAll(Arrays.asList(StringUtils.split(dbExcludeTables, ",")));
-        }
+        ArrayList<String> populatedTables = new ArrayList<String>();
+        int tableCount = 0; // Moved to be outside table pattern loop.
+        int viewCount = 0;
 
         ResultSet tables = null;
-        ArrayList<String> populatedTables = new ArrayList<String>();
         try {
+            // ignore tables
+            Set<String> ignoreTables = new HashSet<String>();
+            String dbExcludeTables = config.getDbExcludeTables();
+            if (StringUtils.isNotBlank(dbExcludeTables)) {
+                ignoreTables.addAll(Arrays.asList(StringUtils.split(dbExcludeTables, ",")));
+            }
+
             this.dbMeta = con.getMetaData();
             String[] tablePatterns = { null }; // Could be null, so start that way.
             if (config.getDbTablePattern() != null)
                 tablePatterns = config.getDbTablePattern().split(","); // Support a comma separated list of table patterns (i.e. specify a list of table names in the config file).
 
-            int tableCount = 0; // Moved to be outside table pattern loop.
-            int viewCount = 0;
             for (String pattern : tablePatterns) {
                 // Get table metadata
-                tables = dbMeta.getTables(config.getDbCatalog(), config.getDbSchema(),
-                    pattern == null ? pattern : pattern.trim(), new String[] { "TABLE", "VIEW" });
+                tables = dbMeta.getTables(config.getDbCatalog(), config.getDbSchema(), pattern == null ? pattern : pattern.trim(), new String[] { "TABLE", "VIEW" });
 
                 // Add all tables and views 
                 while (tables.next()) {
@@ -178,26 +176,26 @@ public class CodeGenParser {
                     }
                 }
             }
-            // Add all relations
-            gatherRelations(db, dbMeta, populatedTables);
-
-            if (tableCount == 0 && viewCount == 0) {
-                // getTables returned no result
-                String info = "catalog=" + config.getDbCatalog();
-                info += "/ schema=" + config.getDbSchema();
-                info += "/ pattern=" + config.getDbTablePattern();
-                log.warn("DatabaseMetaData.getTables() returned no tables or views! Please check parameters: "
-                         + info);
-                log.info("Available catalogs: " + getCatalogs(dbMeta));
-                log.info("Available schemata: " + getSchemata(dbMeta));
-            }
         } finally {
             DBUtil.close(tables, log);
         }
+
+        // Add all relations
+        gatherRelations(db, dbMeta, populatedTables);
+
+        if (tableCount == 0 && viewCount == 0) {
+            // getTables returned no result
+            String info = "catalog=" + config.getDbCatalog();
+            info += "/ schema=" + config.getDbSchema();
+            info += "/ pattern=" + config.getDbTablePattern();
+            log.warn("DatabaseMetaData.getTables() returned no tables or views! Please check parameters: " + info);
+            log.info("Available catalogs: " + getCatalogs(dbMeta));
+            log.info("Available schemata: " + getSchemata(dbMeta));
+        }
+
     }
 
-    private void gatherRelations(DBDatabase db, DatabaseMetaData dbMeta, ArrayList<String> tables)
-                                                                                                  throws SQLException {
+    private void gatherRelations(DBDatabase db, DatabaseMetaData dbMeta, ArrayList<String> tables) throws SQLException {
         ResultSet relations = null;
         String fkTableName, pkTableName, fkColName, pkColName, relName;
         DBTableColumn fkCol, pkCol;
@@ -208,8 +206,7 @@ public class CodeGenParser {
         for (String tableName : tables) {
 
             // check for foreign-keys
-            relations = dbMeta.getImportedKeys(config.getDbCatalog(), config.getDbSchema(),
-                tableName);
+            relations = dbMeta.getImportedKeys(config.getDbCatalog(), config.getDbSchema(), tableName);
             while (relations.next()) {
                 pkCol = fkCol = null;
 
@@ -228,8 +225,7 @@ public class CodeGenParser {
 
                 // check if both tables really exist in the model
                 if (pkTable == null || fkTable == null) {
-                    log.error("Unable to add the relation \"" + relName
-                              + "\"! One of the tables could not be found.");
+                    log.error("Unable to add the relation \"" + relName + "\"! One of the tables could not be found.");
                     continue;
                 }
 
@@ -243,8 +239,7 @@ public class CodeGenParser {
 
                 // check if both columns really exist in the model
                 if (fkCol == null || pkCol == null) {
-                    log.error("Unable to add the relation \"" + relName
-                              + "\"! One of the columns could not be found.");
+                    log.error("Unable to add the relation \"" + relName + "\"! One of the columns could not be found.");
                     continue;
                 }
 
@@ -401,8 +396,7 @@ public class CodeGenParser {
         // This will avoid the driver problem because CURRENT_TIMESTAMP in the db will just do the current datetime.
         // Essentially, Empire-db needs the concept of default values of one type that get mapped to another.
         // In this case, MySQL "CURRENT_TIMESTAMP" for Types.TIMESTAMP needs to emit from the Empire-db driver the null value and not "CURRENT_TIMESTAMP".
-        if (rs.getInt("DATA_TYPE") == Types.TIMESTAMP && defaultValue != null
-            && defaultValue.equals("CURRENT_TIMESTAMP")) {
+        if (rs.getInt("DATA_TYPE") == Types.TIMESTAMP && defaultValue != null && defaultValue.equals("CURRENT_TIMESTAMP")) {
             required = false; // It is in fact not required even though MySQL schema is required because it has a default value. Generally, should Empire-db emit (required && defaultValue != null) to truly determine if a column is required?
             defaultValue = null; // If null (and required per schema?) MySQL will apply internal default value.
         }
@@ -417,9 +411,7 @@ public class CodeGenParser {
             colName = metaData.getColumnName(i);
             // MySQL matches on IS_AUTOINCREMENT column.
             // SQL Server matches on TYPE_NAME column with identity somewhere in the string value.
-            if ((colName.equalsIgnoreCase("IS_AUTOINCREMENT") && rs.getString(i).equalsIgnoreCase(
-                "YES"))
-                || (colName.equals("TYPE_NAME") && rs.getString(i).matches(".*(?i:identity).*"))) {
+            if ((colName.equalsIgnoreCase("IS_AUTOINCREMENT") && rs.getString(i).equalsIgnoreCase("YES")) || (colName.equals("TYPE_NAME") && rs.getString(i).matches(".*(?i:identity).*"))) {
                 empireType = DataType.AUTOINC;
 
             }
