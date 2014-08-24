@@ -33,7 +33,7 @@ public class EmpireDAO extends JdbcDaoSupport {
     /** 
      * @see org.springframework.jdbc.core.support.JdbcDaoSupport#checkDaoConfig()
      */
-    public final void checkDaoConfig() {
+    public void checkDaoConfig() {
         super.checkDaoConfig();
 
         Assert.notNull(this.empireDB, "EmpireDB注入失败！");
@@ -44,7 +44,7 @@ public class EmpireDAO extends JdbcDaoSupport {
      * 获取EmpireDB
      */
     @SuppressWarnings("unchecked")
-    public final <T extends DBDatabase> T empireDB() {
+    public <T extends DBDatabase> T empireDB() {
         try {
             if (!this.empireDB.isOpen()) {
                 this.empireDB.open(this.empireDriver, getConnection());
@@ -60,21 +60,21 @@ public class EmpireDAO extends JdbcDaoSupport {
      * 获取Empire驱动
      */
     @SuppressWarnings("unchecked")
-    public final <T extends DBDatabaseDriver> T empireDriver() {
+    public <T extends DBDatabaseDriver> T empireDriver() {
         return (T) this.empireDriver;
     }
 
     /**
      * 获取数据库连接
      */
-    public final Connection connection() {
+    public Connection connection() {
         return this.getConnection();
     }
 
     /**
      * 检查数据库是否存在
      */
-    public final boolean isDatabaseExist() {
+    public boolean isDatabaseExist() {
         Connection conn = this.connection();
         try {
             DBDatabase db = this.empireDB();
@@ -98,7 +98,7 @@ public class EmpireDAO extends JdbcDaoSupport {
     /**
      * 创建数据库
      */
-    public final void createDatabase() {
+    public void createDatabase() {
         Connection conn = getConnection();
 
         // create DLL for Database Definition
@@ -113,14 +113,14 @@ public class EmpireDAO extends JdbcDaoSupport {
     /**
      * DB异常转换
      */
-    public final RuntimeException translateEmpireException(EmpireException e) {
+    public RuntimeException translateEmpireException(EmpireException e) {
         return new EmpireDBException(e);
     }
 
     /**
      * 打开数据库读对象
      */
-    public final DBReader openReader(DBCommand cmd, Connection conn) {
+    public DBReader openReader(DBCommand cmd, Connection conn) {
         DBReader r = new DBReader();
         r.open(cmd, conn);
         return r;

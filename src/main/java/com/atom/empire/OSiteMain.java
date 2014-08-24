@@ -4,6 +4,7 @@
  */
 package com.atom.empire;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,21 +64,47 @@ public class OSiteMain {
 
         // 2.清空数据表内容
         System.out.println("2.清空数据表内容....");
-        osite.clearDatabase();
+        // osite.clearDatabase();
         System.out.println("2.清空数据表内容.");
 
         // 3.插入数据
         System.out.println("3.插入数据....");
-        CfgDTO cfg1 = new CfgDTO();
-        cfg1.setCatg("Catg1");
-        cfg1.setName("Name1");
-        cfg1.setTitle("参数配置标题1");
-        cfg1.setValue("参数值1");
-        cfg1.setValueExt("参数值扩展1");
+        // osite.createConfig();
+        /*
+        for (int i = 1; i <= 1000; i++) {
+            String idx = StringUtils.leftPad(Integer.toString(i), 4, "0");
+            
+            CfgDTO cfg = new CfgDTO();
+            cfg.setCatg("Catg" + idx);
+            cfg.setName("Name" + idx);
+            cfg.setTitle("参数配置标题" + idx);
+            cfg.setValue("参数值" + idx);
+            cfg.setValueExt("参数值扩展" + idx);
 
-        osite.createConfig(cfg1);
-
+            osite.createConfig(cfg);
+        }
+        */
         System.out.println("3.插入数据.");
+
+        // 4.查询整条数据
+        System.out.println("4.查询整条数据....");
+        CfgDTO cfg = osite.findConfig("catg0011", "name0011");
+        System.out.println(cfg);
+        cfg = osite.findConfig("NotExist0011", "NotExist0011");
+        System.out.println(cfg);
+        System.out.println("4.查询整条数据.");
+
+        // 5.查询部分字段
+        System.out.println("5.查询部分字段....");
+        List<Map<String, Object>> values = osite.statConfigCatg();
+        System.out.println(values);
+        System.out.println("5.查询部分字段.");
+
+        // 6.数据统计
+        System.out.println("6.数据统计....");
+        List<Map<String, Object>> stat = osite.statConfigCatg();
+        System.out.println(stat);
+        System.out.println("6.数据统计.");
 
         // z.退出系统
         System.exit(0);
