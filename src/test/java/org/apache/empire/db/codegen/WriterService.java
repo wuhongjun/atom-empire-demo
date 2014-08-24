@@ -70,16 +70,14 @@ public class WriterService {
      */
     public String getTableName(DBTable t) {
         String name = this.removeDbTablePrefix(t.getName());
-        return StringUtils.toString(config.getTableNamePrefix(), "")
-               + deriveAttributeName(name).toUpperCase();
+        return StringUtils.toString(config.getTableNamePrefix(), "") + deriveAttributeName(name).toUpperCase();
     }
 
     /**
      * Returns the instance name of a view
      */
     public String getViewName(DBView v) {
-        return StringUtils.toString(config.getViewNamePrefix(), "")
-               + deriveAttributeName(v.getName());
+        return StringUtils.toString(config.getViewNamePrefix(), "") + deriveAttributeName(v.getName());
     }
 
     /**
@@ -87,32 +85,28 @@ public class WriterService {
      */
     public String getRowsetName(DBRowSet r) {
         // use same as table
-        return StringUtils.toString(config.getTableNamePrefix(), "")
-               + deriveAttributeName(r.getName());
+        return StringUtils.toString(config.getTableNamePrefix(), "") + deriveAttributeName(r.getName());
     }
 
     /**
      * Returns the instance name of a column
      */
     public String getColumnName(DBColumn c) {
-        return StringUtils.toString(config.getColumnNamePrefix(), "")
-               + deriveAttributeName(c.getName()).toUpperCase();
+        return StringUtils.toString(config.getColumnNamePrefix(), "") + deriveAttributeName(c.getName()).toUpperCase();
     }
 
     /**
      * Returns the java table class name for a given table name.
      */
     public String getTableClassName(String tableName) {
-        return StringUtils.toString(config.getTableClassPrefix(), "") + deriveClassName(tableName)
-               + StringUtils.toString(config.getTableClassSuffix(), "");
+        return StringUtils.toString(config.getTableClassPrefix(), "") + deriveClassName(tableName) + StringUtils.toString(config.getTableClassSuffix(), "");
     }
 
     /**
      * Returns the java table class name for a given view name.
      */
     public String getViewClassName(String viewName) {
-        return StringUtils.toString(config.getViewClassPrefix(), "") + deriveClassName(viewName)
-               + StringUtils.toString(config.getViewClassSuffix(), "");
+        return StringUtils.toString(config.getViewClassPrefix(), "") + deriveClassName(viewName) + StringUtils.toString(config.getViewClassSuffix(), "");
     }
 
     /**
@@ -231,8 +225,7 @@ public class WriterService {
             case UNKNOWN:
                 return Byte[].class;
             default:
-                log.warn("SQL column type " + type.toString()
-                         + " not supported, falling back to byte array.");
+                log.warn("SQL column type " + type.toString() + " not supported, falling back to byte array.");
                 return Byte[].class;
         }
     }
@@ -356,10 +349,10 @@ public class WriterService {
         StringBuilder sbSet = new StringBuilder("set");
         sbSet.append(attributeName);
         attributeName = isGetter ? sbGet : sbSet;
-        if (dbrecMethodNames.contains(sbGet.toString())
-            || dbrecMethodNames.contains(sbSet.toString())) {
+        if (dbrecMethodNames.contains(sbGet.toString()) || dbrecMethodNames.contains(sbSet.toString())) {
             // Any change will resolve the conflict.
-            attributeName.append("Column");
+            // attributeName.append("Column");
+            attributeName.append("_");
         }
         return attributeName.toString();
     }

@@ -22,7 +22,7 @@ package $basePackageName;
 import org.apache.empire.data.DataType;
 #end
 #if($nestViews == true)
-import org.apache.empire.db.DBCommandExpr;
+// import org.apache.empire.db.DBCommandExpr;
 #end
 import org.apache.empire.db.DBDatabase;
 #if($preserveRelationNames == true)
@@ -32,7 +32,7 @@ import org.apache.empire.db.DBRelation;
 import org.apache.empire.db.DBTableColumn;
 #end
 #if($nestViews == true)
-import org.apache.empire.exceptions.NotImplementedException;
+// import org.apache.empire.exceptions.NotImplementedException;
 #end
 
 #if($nestTables==false || !($tablePackageName.equalsIgnoreCase($basePackageName)))

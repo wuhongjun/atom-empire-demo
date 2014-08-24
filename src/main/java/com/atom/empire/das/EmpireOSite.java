@@ -18,8 +18,8 @@ import org.apache.empire.db.DBReader;
 import org.apache.empire.db.DBRecord;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.atom.empire.das.auto.OSiteDB;
-import com.atom.empire.das.auto.records.CfgTBO;
+import com.atom.empire.das.osite.auto.OSiteDB;
+import com.atom.empire.das.osite.auto.records.CfgTBO;
 import com.github.obullxl.lang.utils.DateUtils;
 import com.github.obullxl.plugin.das.dto.CfgDTO;
 import com.google.common.collect.Lists;
@@ -51,8 +51,8 @@ public class EmpireOSite extends EmpireDAO {
         OSiteDB db = this.empireDB();
         Connection conn = this.connection();
 
-        db.executeDelete(db.CFG, db.createCommand(), conn);
-        db.executeDelete(db.CTG, db.createCommand(), conn);
+        db.executeDelete(db.T_CFG, db.createCommand(), conn);
+        db.executeDelete(db.T_CTG, db.createCommand(), conn);
     }
 
     /**
@@ -76,22 +76,22 @@ public class EmpireOSite extends EmpireDAO {
             DBRecord rec = new DBRecord();
 
             String[] keys = new String[] { cfg.getCatg(), cfg.getName() };
-            if (db.CFG.recordExists(keys, conn)) {
+            if (db.T_CFG.recordExists(keys, conn)) {
                 // 已经存在
-                rec.read(db.CFG, keys, conn);
+                rec.read(db.T_CFG, keys, conn);
             } else {
                 // 新建对象
-                rec.create(db.CFG);
-                rec.setValue(db.CFG.CATG, cfg.getCatg());
-                rec.setValue(db.CFG.NAME, cfg.getName());
-                rec.setValue(db.CFG.NEW_TIME, DateUtils.toStringDL(new Date()));
+                rec.create(db.T_CFG);
+                rec.setValue(db.T_CFG.C_CATG, cfg.getCatg());
+                rec.setValue(db.T_CFG.C_NAME, cfg.getName());
+                rec.setValue(db.T_CFG.C_NEW_TIME, DateUtils.toStringDL(new Date()));
             }
 
             // 设置值
-            rec.setValue(db.CFG.TITLE, cfg.getTitle());
-            rec.setValue(db.CFG.VALUE, cfg.getValue());
-            rec.setValue(db.CFG.VALUE_EXT, cfg.getValueExt());
-            rec.setValue(db.CFG.UPD_TIME, DateUtils.toStringDL(new Date()));
+            rec.setValue(db.T_CFG.C_TITLE, cfg.getTitle());
+            rec.setValue(db.T_CFG.C_VALUE, cfg.getValue());
+            rec.setValue(db.T_CFG.C_VALUE_EXT, cfg.getValueExt());
+            rec.setValue(db.T_CFG.C_UPD_TIME, DateUtils.toStringDL(new Date()));
 
             rec.update(conn);
             rec.close();
@@ -102,7 +102,7 @@ public class EmpireOSite extends EmpireDAO {
         /*
         // 属性复制
         CfgTBO tb = new CfgTBO(db);
-        tb.create(db.CFG, conn);
+        tb.create(db.T_CFG, conn);
 
         tb.setCatg(cfg.getCatg());
         tb.setName(cfg.getName());
@@ -122,8 +122,8 @@ public class EmpireOSite extends EmpireDAO {
         Connection conn = this.connection();
 
         DBCommand cmd = db.createCommand();
-        cmd.select(db.CFG.getColumns());
-        cmd.where(db.CFG.CATG.cmp(DBCmpType.EQUAL, catg).and(db.CFG.NAME.cmp(DBCmpType.EQUAL, name)));
+        cmd.select(db.T_CFG.getColumns());
+        cmd.where(db.T_CFG.C_CATG.cmp(DBCmpType.EQUAL, catg).and(db.T_CFG.C_NAME.cmp(DBCmpType.EQUAL, name)));
 
         DBReader reader = this.openReader(cmd, conn);
         if (!reader.moveNext()) {
@@ -131,8 +131,8 @@ public class EmpireOSite extends EmpireDAO {
         }
 
         CfgTBO tb = new CfgTBO(db);
-        tb.create(db.CFG);
-        reader.initRecord(db.CFG, tb);
+        tb.create(db.T_CFG);
+        reader.initRecord(db.T_CFG, tb);
         reader.close();
 
         if (!tb.isValid()) {
@@ -143,7 +143,7 @@ public class EmpireOSite extends EmpireDAO {
         cfg.setCatg(catg);
         cfg.setName(name);
         cfg.setTitle(tb.getTitle());
-        cfg.setValue(tb.getValueColumn());
+        cfg.setValue(tb.getValue_());
         cfg.setValueExt(tb.getValueExt());
         cfg.setNewTime(tb.getNewTime());
         cfg.setUpdTime(tb.getUpdTime());
@@ -158,13 +158,13 @@ public class EmpireOSite extends EmpireDAO {
         OSiteDB db = this.empireDB();
         Connection conn = this.connection();
 
-        DBColumnExpr COUNT = db.CFG.count();
-        DBColumnExpr MAX = db.CFG.NAME.max();
-        DBColumnExpr MIN = db.CFG.NAME.min();
+        DBColumnExpr COUNT = db.T_CFG.count();
+        DBColumnExpr MAX = db.T_CFG.C_NAME.max();
+        DBColumnExpr MIN = db.T_CFG.C_NAME.min();
         DBCommand cmd = db.createCommand();
-        cmd.select(db.CFG.CATG);
+        cmd.select(db.T_CFG.C_CATG);
         cmd.select(COUNT, MAX, MIN);
-        cmd.groupBy(db.CFG.CATG);
+        cmd.groupBy(db.T_CFG.C_CATG);
 
         List<Map<String, Object>> values = Lists.newArrayList();
 
@@ -178,7 +178,7 @@ public class EmpireOSite extends EmpireDAO {
                 // value.put(expr.getName(), reader.getValue(expr));
             }
             
-            value.put(db.CFG.CATG.getName(), reader.getString(db.CFG.CATG));
+            value.put(db.T_CFG.C_CATG.getName(), reader.getString(db.T_CFG.C_CATG));
             value.put("COUNT", reader.getInt(COUNT));
             value.put("MAX_NAME", reader.getString(MAX));
             value.put("MIN_NAME", reader.getString(MIN));

@@ -35,7 +35,7 @@
 	<bean id="empireOSite" class="com.atom.empire.das.EmpireOSite">
 		<property name="dataSource" ref="dataSource" />
 		<property name="empireDB">
-			<bean class="com.atom.empire.das.auto.OSiteDB" init-method="init" />
+			<bean class="com.atom.empire.das.osite.auto.OSiteDB" init-method="init" />
 		</property>
 		<property name="empireDriver">
 			<bean class="com.atom.empire.das.EmpireDriverFactory">

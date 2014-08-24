@@ -1,8 +1,8 @@
 
-package com.atom.empire.das.auto.records;
+package com.atom.empire.das.osite.auto.records;
 
 import org.apache.empire.db.DBRecord;
-import com.atom.empire.das.auto.tables.OSiteTable;
+import com.atom.empire.das.osite.auto.OSiteTable;
 
 
 public abstract class OSiteTBO<T extends OSiteTable> extends DBRecord {

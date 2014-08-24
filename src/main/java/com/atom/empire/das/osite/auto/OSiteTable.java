@@ -1,5 +1,5 @@
 
-package com.atom.empire.das.auto.tables;
+package com.atom.empire.das.osite.auto;
 
 import org.apache.empire.db.DBDatabase;
 import org.apache.empire.db.DBTable;

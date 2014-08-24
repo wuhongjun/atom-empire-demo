@@ -167,7 +167,7 @@ public class CodeGenWriter {
         this.baseDir = FileUtils.getFileFromPackage(targetDir, config.getPackageName());
 
         // Clean out the directory so old code is wiped out.
-        FileUtils.cleanDirectory(this.baseDir);
+        // FileUtils.cleanDirectory(this.baseDir);
 
         // Create the table package directory
         this.tableDir = FileUtils.getFileFromPackage(targetDir, config.getTablePackageName());
